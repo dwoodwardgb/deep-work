@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-type TimeslotForm = {
+export type TimeslotForm = {
   start: string;
   end: string;
   description: string;

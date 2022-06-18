@@ -1,16 +1,35 @@
 import { FC } from "react";
-import NewTimeslotForm from "./new-timeslot-form";
+import dayjs from "dayjs";
+import NewTimeslotForm, { TimeslotForm } from "./new-timeslot-form";
 
-type Timeslot = {
+export type Timeslot = {
   start: Date;
   end: Date;
   description: string;
 };
 
-const Planner: FC<{ day: Date; timeslots: Timeslot[] }> = ({
-  day,
-  timeslots,
-}) => {
+function parseTimeInputString(i: string): Date {
+  const [hours, minutes] = i.split(":");
+  return dayjs()
+    .hour(parseInt(hours))
+    .minute(parseInt(minutes))
+    .second(0)
+    .toDate();
+}
+
+function timeslotFormToTimeslot(form: TimeslotForm): Timeslot {
+  return {
+    start: parseTimeInputString(form.start),
+    end: parseTimeInputString(form.end),
+    description: form.description,
+  };
+}
+
+const Planner: FC<{
+  day: Date;
+  timeslots: Timeslot[];
+  onNewTimeslot: (ts: Timeslot) => void;
+}> = ({ day, timeslots, onNewTimeslot }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
 
   return (
@@ -30,7 +49,7 @@ const Planner: FC<{ day: Date; timeslots: Timeslot[] }> = ({
 
       <NewTimeslotForm
         onSubmit={(data) => {
-          console.debug(data);
+          onNewTimeslot(timeslotFormToTimeslot(data));
         }}
       />
     </>

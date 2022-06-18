@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Planner from "../components/planner";
+import { useState } from "react";
+import Planner, { Timeslot } from "../components/planner";
 
 const Home: NextPage = () => {
+  const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
+
   return (
     <>
       <Head>
@@ -12,7 +15,13 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <Planner day={new Date()} timeslots={[]} />
+        <Planner
+          day={new Date()}
+          timeslots={timeslots}
+          onNewTimeslot={(newTimeslot) =>
+            setTimeslots(timeslots.concat([newTimeslot]))
+          }
+        />
       </main>
     </>
   );
