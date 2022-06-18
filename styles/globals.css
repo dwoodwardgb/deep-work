@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .border-basic {
+    @apply border-solid;
+    @apply border-black;
+    @apply border-2;
+  }
+  .textbox {
+    @apply border-basic;
+    @apply p-2;
+  }
+  .button {
+    @apply border-basic;
+    @apply p-2;
+  }
+}
