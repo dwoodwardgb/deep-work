@@ -9,14 +9,31 @@ export type Timeslot = {
 const Planner: FC<{
   day: Date;
   timeslots: Timeslot[];
-}> = ({ day, timeslots }) => {
+  onPrevious: Function;
+  onNext: Function;
+}> = ({ day, timeslots, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
 
   return (
     <>
-      <p className="block text-center mb-4" suppressHydrationWarning>
-        Timeslot planner for {day.toLocaleDateString()}
-      </p>
+      <div className="flex items-center mb-4">
+        <button
+          type="button"
+          className="button-sm"
+          onClick={() => onPrevious()}
+        >
+          Previous day
+        </button>
+        <p
+          className="block text-center mx-10 text-2xl"
+          suppressHydrationWarning
+        >
+          Timeslot planner for {day.toLocaleDateString()}
+        </p>
+        <button type="button" className="button-sm" onClick={() => onNext()}>
+          Next day
+        </button>
+      </div>
       <ol>
         {timeslots.map((ts) => (
           <li key={ts.start.getTime() + ts.end.getTime()}>

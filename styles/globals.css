@@ -16,4 +16,9 @@
     @apply border-basic;
     @apply p-2;
   }
+  .button-sm {
+    @apply border-basic;
+    @apply p-1;
+    @apply text-sm;
+  }
 }

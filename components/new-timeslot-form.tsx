@@ -18,7 +18,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
 
   return (
     <>
-      <p className="block text-center mb-4">Add timeslot</p>
+      <p className="block text-center mb-4 text-xl">Add timeslot</p>
       <form
         className="grid sm:grid-cols-[auto_1fr] sm:grid-rows-[repeat(4, auto)] gap-2 sm:gap-x-4 sm:gap-y-8"
         onSubmit={handleSubmit(onSubmit)}
