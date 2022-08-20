@@ -5,19 +5,17 @@ import dayjs from "dayjs";
 import Planner, { Timeslot } from "../components/planner";
 import NewTimeslotForm, { TimeslotForm } from "../components/new-timeslot-form";
 
-function parseTimeInputString(d: Date, i: string): Date {
-  const [hours, minutes] = i.split(":");
-  return dayjs(d)
-    .hour(parseInt(hours))
-    .minute(parseInt(minutes))
+function parseTimeInputString(i: string): Date {
+  return dayjs(i)
     .second(0)
     .toDate();
 }
 
 function timeslotFormToTimeslot(d: Date, form: TimeslotForm): Timeslot {
   return {
-    start: parseTimeInputString(d, form.start),
-    end: parseTimeInputString(d, form.end),
+    id: Math.round(Math.random() * 10000000000).toString(),
+    start: parseTimeInputString(form.start),
+    end: parseTimeInputString(form.end),
     description: form.description,
   };
 }

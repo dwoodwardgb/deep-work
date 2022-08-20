@@ -29,7 +29,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
         <input
           className="textbox"
           id="start"
-          type="time"
+          type="datetime-local"
           {...register("start")}
           required
         />
@@ -40,7 +40,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
         <input
           className="textbox"
           id="end"
-          type="time"
+          type="datetime-local"
           {...register("end")}
           required
         />

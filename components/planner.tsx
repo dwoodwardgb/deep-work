@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 export type Timeslot = {
+  id: string;
   start: Date;
   end: Date;
   description: string;
@@ -36,7 +37,7 @@ const Planner: FC<{
       </div>
       <ol>
         {timeslots.map((ts) => (
-          <li key={ts.start.getTime() + ts.end.getTime()}>
+          <li key={ts.id}>
             {ts.start.toLocaleTimeString(locale, { timeStyle: "short" })} to{" "}
             {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
             {ts.description}
