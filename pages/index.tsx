@@ -6,9 +6,7 @@ import Planner, { Timeslot } from "../components/planner";
 import NewTimeslotForm, { TimeslotForm } from "../components/new-timeslot-form";
 
 function parseTimeInputString(i: string): Date {
-  return dayjs(i)
-    .second(0)
-    .toDate();
+  return dayjs(i).second(0).toDate();
 }
 
 function timeslotFormToTimeslot(d: Date, form: TimeslotForm): Timeslot {
@@ -37,7 +35,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="ml-auto mr-auto max-w-6xl md:flex p-4">
-        <section className="flex-grow">
+        <section className="flex-grow ml-auto mr-auto md:m-0">
           <Planner
             day={today}
             timeslots={timeslots}
@@ -50,7 +48,7 @@ const Home: NextPage = () => {
           />
         </section>
 
-        <section className="flex-grow ml-auto mr-auto max-w-xs mt-4 sm:max-w-md md:m-0 md:ml-4">
+        <section className="flex-grow ml-auto mr-auto max-w-xs mt-4 sm:max-w-sm md:m-0 md:ml-4">
           <NewTimeslotForm
             onSubmit={(data) => {
               setTimeslots(

@@ -26,7 +26,7 @@ const Planner: FC<{
           Previous day
         </button>
         <p
-          className="block text-center mx-10 text-2xl"
+          className="block text-center mx-4 sm:mx-5 lg:mx-10 text-2xl"
           suppressHydrationWarning
         >
           Timeslot planner for {day.toLocaleDateString()}
