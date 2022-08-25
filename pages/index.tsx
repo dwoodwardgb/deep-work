@@ -48,7 +48,7 @@ const Home: NextPage = () => {
           />
         </section>
 
-        <section className="flex-grow ml-auto mr-auto max-w-xs mt-4 sm:max-w-sm md:m-0 md:ml-4">
+        <section className="flex-grow ml-auto mr-auto max-w-xs mt-4 md:m-0 md:ml-4">
           <NewTimeslotForm
             onSubmit={(data) => {
               setTimeslots(

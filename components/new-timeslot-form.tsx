@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useForm, SubmitHandler, Validate } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 export type TimeslotForm = {
   start: string;
@@ -21,9 +21,6 @@ function dateIsValid(s: string) {
   }
 }
 
-/*
- * TODO
- */
 const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
   onSubmit,
 }) => {
@@ -65,7 +62,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
         <div className="flex flex-col">
           <label className="" htmlFor="start">
             Start time *&nbsp;
-            <span className="text-red-600 float-right">
+            <span className="text-red-600 float-right word-break-word">
               {errors?.start?.message}
             </span>
           </label>
@@ -84,7 +81,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
         <div className="flex flex-col">
           <label className="" htmlFor="end">
             End time *&nbsp;
-            <span className="text-red-600 float-right">
+            <span className="text-red-600 float-right word-break-word">
               {errors?.end?.message}
             </span>
           </label>
@@ -103,7 +100,7 @@ const NewTimeslotForm: FC<{ onSubmit: SubmitHandler<TimeslotForm> }> = ({
         <div className="flex flex-col">
           <label className="" htmlFor="description">
             Description *&nbsp;
-            <span className="text-red-600 float-right">
+            <span className="text-red-600 float-right word-break-word">
               {errors?.description?.message}
             </span>
           </label>
