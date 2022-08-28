@@ -1,7 +1,9 @@
 import { FC } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTimeslots } from "../client/dummyApi";
 
 export type Timeslot = {
-  id: string;
+  id?: string;
   start: Date;
   end: Date;
   description: string;
@@ -9,11 +11,11 @@ export type Timeslot = {
 
 const Planner: FC<{
   day: Date;
-  timeslots: Timeslot[];
   onPrevious: Function;
   onNext: Function;
-}> = ({ day, timeslots, onPrevious, onNext }) => {
+}> = ({ day, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
+  const { isLoading, error, data } = useQuery(["timeslots"], fetchTimeslots);
 
   return (
     <>
@@ -35,15 +37,21 @@ const Planner: FC<{
           Next day
         </button>
       </div>
-      <ol>
-        {timeslots.map((ts) => (
-          <li key={ts.id}>
-            {ts.start.toLocaleTimeString(locale, { timeStyle: "short" })} to{" "}
-            {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
-            {ts.description}
-          </li>
-        ))}
-      </ol>
+      {isLoading ? (
+        <div role="progressbar">Loading</div>
+      ) : error ? (
+        <div>An error has occurred</div>
+      ) : (
+        <ol>
+          {data!.map((ts) => (
+            <li key={ts.id}>
+              {ts.start.toLocaleTimeString(locale, { timeStyle: "short" })} to{" "}
+              {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
+              {ts.description}
+            </li>
+          ))}
+        </ol>
+      )}
     </>
   );
 };
