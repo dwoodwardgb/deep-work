@@ -15,6 +15,9 @@
   .textbox.error {
     @apply border-red-600;
   }
+  .alert.error {
+    @apply text-red-600;
+  }
   .button {
     @apply border-basic;
     @apply p-2;

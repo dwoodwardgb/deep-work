@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
@@ -71,8 +72,10 @@ const NewTimeslotForm = ({}) => {
       return { previousTimeslots };
     },
     // If the mutation fails, use the context returned from onMutate to roll back
-    onError: (err, newTodo, context) => {
+    onError: (err: Error, newTimeslot, context) => {
+      console.error(err);
       queryClient.setQueryData(["timeslots"], context?.previousTimeslots);
+      return Promise.reject(err);
     },
     // Always refetch after error or success:
     onSettled: () => {
@@ -163,12 +166,19 @@ const NewTimeslotForm = ({}) => {
           />
         </div>
 
+        {mutation.isError && (
+          <div className="alert error" role="alert">
+            There was an error creating your time box, try again later
+          </div>
+        )}
+
         <div className="mt-4 self-end space-x-4">
           <button
             className="button"
             type="button"
             onClick={() => {
               reset();
+              mutation.reset();
             }}
           >
             Reset

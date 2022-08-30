@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { isError, useQuery } from "@tanstack/react-query";
 import { fetchTimeslots } from "../client/dummyApi";
 
 export type Timeslot = {
@@ -37,21 +37,37 @@ const Planner: FC<{
           Next day
         </button>
       </div>
-      {isLoading ? (
-        <div role="progressbar">Loading</div>
-      ) : error ? (
-        <div>An error has occurred</div>
-      ) : (
-        <ol>
-          {data!.map((ts) => (
-            <li key={ts.id}>
-              {ts.start.toLocaleTimeString(locale, { timeStyle: "short" })} to{" "}
-              {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
-              {ts.description}
-            </li>
-          ))}
-        </ol>
-      )}
+      <section aria-live="polite">
+        {isLoading ? (
+          <div role="progressbar" aria-busy="true">
+            Loading
+          </div>
+        ) : (
+          <>
+            {!!error && (
+              <div role="alert" className="alert error">
+                There was an error loading your data, try again later
+              </div>
+            )}
+            {data?.length ? (
+              <ol>
+                {data!.map((ts) => (
+                  <li key={ts.id}>
+                    {ts.start.toLocaleTimeString(locale, {
+                      timeStyle: "short",
+                    })}{" "}
+                    to{" "}
+                    {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
+                    {ts.description}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>There are no timeslots to show</p>
+            )}
+          </>
+        )}
+      </section>
     </>
   );
 };

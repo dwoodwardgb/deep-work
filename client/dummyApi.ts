@@ -7,20 +7,26 @@ export async function fetchTimeslots(): Promise<Timeslot[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(t);
-    }, 3000);
+    }, 600);
   });
 }
 
 export async function createTimeslot(timeslot: Timeslot): Promise<Timeslot> {
   console.debug("mutate");
+  const res = Math.random();
+  const success = res < 0.5;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const ts = {
-        ...timeslot,
-        id: Math.round(Math.random() * 10000000000).toString(),
-      };
-      t = [...t, ts];
-      resolve(ts);
-    }, 3000);
+      if (success) {
+        const ts = {
+          ...timeslot,
+          id: Math.round(Math.random() * 10000000000).toString(),
+        };
+        t = [...t, ts];
+        resolve(ts);
+      } else {
+        reject(new Error("Unable to create timeslot, try again later"));
+      }
+    }, 600);
   });
 }
