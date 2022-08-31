@@ -50,7 +50,7 @@ const Planner: FC<{
               </div>
             )}
             {data?.length ? (
-              <ol>
+              <ol style={{ wordBreak: "break-word" }}>
                 {data!.map((ts) => (
                   <li key={ts.id}>
                     {ts.start.toLocaleTimeString(locale, {

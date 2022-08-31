@@ -75,11 +75,15 @@ const NewTimeslotForm = ({}) => {
       return { previousTimeslots };
     },
     onSuccess: () => {
-      setFlash("Timslot created");
+      // TODO this is a hack but it works
+      setFlash("");
+      setTimeout(() => {
+        setFlash("Timslot created");
+      });
+      reset();
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err: Error, newTimeslot, context) => {
-      console.error(err);
       queryClient.setQueryData(["timeslots"], context?.previousTimeslots);
       return Promise.reject(err);
     },

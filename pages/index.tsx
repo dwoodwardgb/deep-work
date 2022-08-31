@@ -36,7 +36,10 @@ const Home: NextPage = () => {
           />
         </section>
 
-        <section className="flex-grow ml-auto mr-auto max-w-xs mt-4 md:m-0 md:ml-4">
+        <section
+          className="ml-auto mr-auto mt-4 md:m-0 md:ml-4"
+          style={{ maxWidth: 370, minWidth: 370 }}
+        >
           <NewTimeslotForm />
         </section>
       </main>
