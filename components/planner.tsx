@@ -49,7 +49,7 @@ const Planner: FC<{
                 There was an error loading your data, try again later
               </div>
             )}
-            {data?.length && (
+            {data?.length ? (
               <ol>
                 {data!.map((ts) => (
                   <li key={ts.id}>
@@ -62,7 +62,7 @@ const Planner: FC<{
                   </li>
                 ))}
               </ol>
-            )}
+            ) : undefined}
             {!error && !data?.length && <p>There are no timeslots to show</p>}
           </>
         )}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import Planner from "../components/planner";
 import NewTimeslotForm from "../components/new-timeslot-form";
+import ScreenReaderFlash from "../components/screen-reader-flash";
 
 function getStartOfToday() {
   return dayjs().startOf("day").toDate();
@@ -21,6 +22,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="ml-auto mr-auto max-w-6xl md:flex p-4">
+        <ScreenReaderFlash />
+
         <section className="flex-grow ml-auto mr-auto md:m-0">
           <Planner
             day={today}

@@ -1,8 +1,10 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
+import { useAtom } from "jotai";
 import { Timeslot } from "../components/planner";
 import { createTimeslot } from "../client/dummyApi";
+import { screenReaderFlashAtom } from "../store";
 
 export type TimeslotForm = {
   start: string;
@@ -49,6 +51,8 @@ const NewTimeslotForm = ({}) => {
     reValidateMode: "onSubmit",
   });
 
+  const [_, setFlash] = useAtom(screenReaderFlashAtom);
+
   const queryClient = useQueryClient();
   const mutation = useMutation(createTimeslot, {
     onMutate: async (newTimeslot) => {
@@ -69,6 +73,9 @@ const NewTimeslotForm = ({}) => {
 
       // Return a context object with the snapshotted value
       return { previousTimeslots };
+    },
+    onSuccess: () => {
+      setFlash("Timslot created");
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err: Error, newTimeslot, context) => {
