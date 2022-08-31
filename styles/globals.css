@@ -17,10 +17,15 @@
   }
   .alert.error {
     @apply text-red-600;
+    @apply font-bold;
   }
   .button {
     @apply border-basic;
     @apply p-2;
+  }
+  .button:disabled {
+    @apply text-gray-500;
+    @apply border-gray-500;
   }
   .button-sm {
     @apply border-basic;

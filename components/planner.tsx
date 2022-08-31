@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { isError, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchTimeslots } from "../client/dummyApi";
 
 export type Timeslot = {
@@ -27,17 +27,17 @@ const Planner: FC<{
         >
           Previous day
         </button>
-        <p
+        <h2
           className="block text-center mx-4 sm:mx-5 lg:mx-10 text-2xl"
           suppressHydrationWarning
         >
           Timeslot planner for {day.toLocaleDateString()}
-        </p>
+        </h2>
         <button type="button" className="button-sm" onClick={() => onNext()}>
           Next day
         </button>
       </div>
-      <section aria-live="polite">
+      <section>
         {isLoading ? (
           <div role="progressbar" aria-busy="true">
             Loading
@@ -49,7 +49,7 @@ const Planner: FC<{
                 There was an error loading your data, try again later
               </div>
             )}
-            {data?.length ? (
+            {data?.length && (
               <ol>
                 {data!.map((ts) => (
                   <li key={ts.id}>
@@ -62,9 +62,8 @@ const Planner: FC<{
                   </li>
                 ))}
               </ol>
-            ) : (
-              <p>There are no timeslots to show</p>
             )}
+            {!error && !data?.length && <p>There are no timeslots to show</p>}
           </>
         )}
       </section>

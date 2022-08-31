@@ -27,6 +27,6 @@ export async function createTimeslot(timeslot: Timeslot): Promise<Timeslot> {
       } else {
         reject(new Error("Unable to create timeslot, try again later"));
       }
-    }, 600);
+    }, 1200);
   });
 }

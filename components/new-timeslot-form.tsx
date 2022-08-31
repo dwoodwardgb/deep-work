@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
@@ -101,15 +100,15 @@ const NewTimeslotForm = ({}) => {
 
   return (
     <>
-      <p className="block text-center mb-4 text-xl">Add timeslot</p>
+      <h2 className="block text-center mb-4 text-xl">Add timeslot</h2>
       <form
         className="flex flex-col space-y-4"
         onSubmit={handleSubmit(validateForm)}
       >
         <div className="flex flex-col">
           <label className="" htmlFor="start">
-            Start time *&nbsp;
-            <span className="text-red-600 float-right word-break-word">
+            Start time *
+            <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.start?.message}
             </span>
           </label>
@@ -127,8 +126,8 @@ const NewTimeslotForm = ({}) => {
 
         <div className="flex flex-col">
           <label className="" htmlFor="end">
-            End time *&nbsp;
-            <span className="text-red-600 float-right word-break-word">
+            End time *
+            <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.end?.message}
             </span>
           </label>
@@ -146,8 +145,8 @@ const NewTimeslotForm = ({}) => {
 
         <div className="flex flex-col">
           <label className="" htmlFor="description">
-            Description *&nbsp;
-            <span className="text-red-600 float-right word-break-word">
+            Description *
+            <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.description?.message}
             </span>
           </label>
@@ -180,10 +179,15 @@ const NewTimeslotForm = ({}) => {
               reset();
               mutation.reset();
             }}
+            disabled={mutation.isLoading}
           >
             Reset
           </button>
-          <button className="button" type="submit">
+          <button
+            className="button"
+            type="submit"
+            disabled={mutation.isLoading}
+          >
             Add
           </button>
         </div>
