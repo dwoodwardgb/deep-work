@@ -1,8 +1,8 @@
 {
-  "title": "Agenda Timebox",
-  "timeboxCreated": "Timebox creado",
+  "title": "Agenda Timeblock",
+  "timeblockCreated": "Timeblock creado",
   "add": "Añadir",
-  "addTimebox": "Añadir Timebox",
+  "addTimeblock": "Añadir Timeblock",
   "startTime": "Comienzo",
   "endTime": "Final",
   "description": "Descripción",
@@ -11,13 +11,13 @@
   "descriptionRequired": "Descripción necesaria",
   "descriptionCharacterLimit": "Descripción no puede tener mas que 140 carácteres",
   "endAfterStart": "Final tiene que venir despues del comienzo",
-  "errorCreatingTimebox": "Hubo un error creando su Timebox, trate otra vez",
+  "errorCreatingTimeblock": "Hubo un error creando su timeblock, trate otra vez",
   "valueTooLong": "Es tan larga",
   "reset": "Reiniciar",
   "previousDay": "Día Previo",
-  "timeboxsForDay": "Timeboxes para {{day}}",
+  "timeblocksForDay": "Timeblocks para {{day}}",
   "loading": "Cargando",
   "errorFetching": "Hubo un error cargando su data, trate otra vez",
-  "noTimeboxes": "No hay Timeboxes para ver",
+  "noTimeblocks": "No hay Timeblocks para ver",
   "nextDay": "Día Siguiente"
 }

@@ -6,7 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import Planner from "../components/planner";
-import NewTimeboxForm from "../components/new-timebox-form";
+import NewTimeblockForm from "../components/new-timeblock-form";
 import ScreenReaderFlash from "../components/screen-reader-flash";
 
 export async function getStaticProps({ locale }: { locale: string }) {
@@ -69,7 +69,7 @@ const Home: NextPage = () => {
           className="ml-auto mr-auto mt-4 md:m-0 md:ml-4"
           style={{ maxWidth: 370, minWidth: 370 }}
         >
-          <NewTimeboxForm />
+          <NewTimeblockForm />
         </section>
       </main>
     </>

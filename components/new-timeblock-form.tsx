@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import { useTranslation } from "next-i18next";
-import { Timebox } from "../components/planner";
-import { createTimebox } from "../client/dummyApi";
+import { Timeblock } from "../components/planner";
+import { createTimeblock } from "../client/dummyApi";
 import { screenReaderFlashAtom } from "../store";
 
-export type TimeboxForm = {
+export type TimeblockForm = {
   start: string;
   end: string;
   description: string;
@@ -17,7 +17,7 @@ function parseTimeInputString(i: string): Date {
   return dayjs(i).second(0).toDate();
 }
 
-function timeboxFormToTimebox(form: TimeboxForm): Timebox {
+function timeblockFormToTimeblock(form: TimeblockForm): Timeblock {
   return {
     start: parseTimeInputString(form.start),
     end: parseTimeInputString(form.end),
@@ -25,7 +25,7 @@ function timeboxFormToTimebox(form: TimeboxForm): Timebox {
   };
 }
 
-const NewTimeboxForm = ({}) => {
+const NewTimeblockForm = ({}) => {
   const {
     register,
     handleSubmit,
@@ -33,7 +33,7 @@ const NewTimeboxForm = ({}) => {
     setError,
     getFieldState,
     reset,
-  } = useForm<TimeboxForm>({
+  } = useForm<TimeblockForm>({
     shouldUseNativeValidation: false,
     reValidateMode: "onSubmit",
   });
@@ -42,42 +42,45 @@ const NewTimeboxForm = ({}) => {
 
   const { t } = useTranslation("common");
   const queryClient = useQueryClient();
-  const mutation = useMutation(createTimebox, {
-    onMutate: async (newTimebox) => {
+  const mutation = useMutation(createTimeblock, {
+    onMutate: async (newTimeblock) => {
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries(["timeboxs"]);
+      await queryClient.cancelQueries(["timeblocks"]);
 
       // Snapshot the previous value
-      const previousTimeboxes = queryClient.getQueryData(["timeboxs"]);
+      const previousTimeblocks = queryClient.getQueryData(["timeblocks"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["timeboxs"], (old: Timebox[] | undefined) => [
-        ...(old || []),
-        {
-          ...newTimebox,
-          id: Math.round(Math.random() * 10000000000).toString(),
-        },
-      ]);
+      queryClient.setQueryData(
+        ["timeblocks"],
+        (old: Timeblock[] | undefined) => [
+          ...(old || []),
+          {
+            ...newTimeblock,
+            id: Math.round(Math.random() * 10000000000).toString(),
+          },
+        ]
+      );
 
       // Return a context object with the snapshotted value
-      return { previousTimeboxes };
+      return { previousTimeblocks };
     },
     onSuccess: () => {
       // TODO this is a hack but it works
       setFlash("");
       setTimeout(() => {
-        setFlash(t("timeboxCreated"));
+        setFlash(t("timeblockCreated"));
       });
       reset();
     },
     // If the mutation fails, use the context returned from onMutate to roll back
-    onError: (err: Error, newTimebox, context) => {
-      queryClient.setQueryData(["timeboxs"], context?.previousTimeboxes);
+    onError: (err: Error, newTimeblock, context) => {
+      queryClient.setQueryData(["timeblocks"], context?.previousTimeblocks);
       return Promise.reject(err);
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries(["timeboxs"]);
+      queryClient.invalidateQueries(["timeblocks"]);
     },
   });
 
@@ -95,7 +98,7 @@ const NewTimeboxForm = ({}) => {
     }
   }
 
-  function validateForm(data: TimeboxForm) {
+  function validateForm(data: TimeblockForm) {
     const start = new Date(data.start);
     const end = new Date(data.end);
     if (start.getTime() > end.getTime()) {
@@ -103,7 +106,7 @@ const NewTimeboxForm = ({}) => {
         message: t("endAfterStart"),
       });
     } else {
-      mutation.mutate(timeboxFormToTimebox(data));
+      mutation.mutate(timeblockFormToTimeblock(data));
     }
   }
 
@@ -115,7 +118,7 @@ const NewTimeboxForm = ({}) => {
 
   return (
     <>
-      <h2 className="block text-center mb-4 text-xl">{t("addTimebox")}</h2>
+      <h2 className="block text-center mb-4 text-xl">{t("addTimeblock")}</h2>
       <form
         className="flex flex-col space-y-4"
         onSubmit={handleSubmit(validateForm)}
@@ -182,7 +185,7 @@ const NewTimeboxForm = ({}) => {
 
         {mutation.isError && (
           <div className="alert error" role="alert">
-            {t("errorCreatingTimebox")}
+            {t("errorCreatingTimeblock")}
           </div>
         )}
 
@@ -211,4 +214,4 @@ const NewTimeboxForm = ({}) => {
   );
 };
 
-export default NewTimeboxForm;
+export default NewTimeblockForm;

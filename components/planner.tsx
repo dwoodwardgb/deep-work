@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
-import { fetchTimeboxes } from "../client/dummyApi";
+import { fetchTimeblocks } from "../client/dummyApi";
 
-export type Timebox = {
+export type Timeblock = {
   id?: string;
   start: Date;
   end: Date;
@@ -16,7 +16,7 @@ const Planner: FC<{
   onNext: Function;
 }> = ({ day, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
-  const { isLoading, error, data } = useQuery(["timeboxs"], fetchTimeboxes);
+  const { isLoading, error, data } = useQuery(["timeblocks"], fetchTimeblocks);
   const { t } = useTranslation("common");
 
   return (
@@ -33,7 +33,7 @@ const Planner: FC<{
           className="block text-center mx-4 sm:mx-5 lg:mx-10 text-2xl"
           suppressHydrationWarning
         >
-          {t("timeboxsForDay", { day: day.toLocaleDateString() })}
+          {t("timeblocksForDay", { day: day.toLocaleDateString() })}
         </h2>
         <button type="button" className="button-sm" onClick={() => onNext()}>
           {t("nextDay")}
@@ -65,7 +65,7 @@ const Planner: FC<{
                 ))}
               </ol>
             ) : undefined}
-            {!error && !data?.length && <p>{t("noTimeboxes")}</p>}
+            {!error && !data?.length && <p>{t("noTimeblocks")}</p>}
           </>
         )}
       </section>

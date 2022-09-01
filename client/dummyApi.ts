@@ -1,8 +1,8 @@
-import { Timebox } from "../components/planner";
+import { Timeblock } from "../components/planner";
 
-let t: Timebox[] = [];
+let t: Timeblock[] = [];
 
-export async function fetchTimeboxes(): Promise<Timebox[]> {
+export async function fetchTimeblocks(): Promise<Timeblock[]> {
   console.debug("fetch");
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -11,7 +11,9 @@ export async function fetchTimeboxes(): Promise<Timebox[]> {
   });
 }
 
-export async function createTimebox(timebox: Timebox): Promise<Timebox> {
+export async function createTimeblock(
+  timeblock: Timeblock
+): Promise<Timeblock> {
   console.debug("mutate");
   const res = Math.random();
   const success = res < 0.5;
@@ -19,13 +21,13 @@ export async function createTimebox(timebox: Timebox): Promise<Timebox> {
     setTimeout(() => {
       if (success) {
         const ts = {
-          ...timebox,
+          ...timeblock,
           id: Math.round(Math.random() * 10000000000).toString(),
         };
         t = [...t, ts];
         resolve(ts);
       } else {
-        reject(new Error("Unable to create timebox, try again later"));
+        reject(new Error("Unable to create timeblock, try again later"));
       }
     }, 1200);
   });
