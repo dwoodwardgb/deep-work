@@ -1,0 +1,23 @@
+{
+  "title": "Agenda Timebox",
+  "timeboxCreated": "Timebox creado",
+  "add": "Añadir",
+  "addTimebox": "Añadir Timebox",
+  "startTime": "Comienzo",
+  "endTime": "Final",
+  "description": "Descripción",
+  "badDate": "No se puede reconocer esta fecha",
+  "dateRequired": "Fecha necesaria",
+  "descriptionRequired": "Descripción necesaria",
+  "descriptionCharacterLimit": "Descripción no puede tener mas que 140 carácteres",
+  "endAfterStart": "Final tiene que venir despues del comienzo",
+  "errorCreatingTimebox": "Hubo un error creando su Timebox, trate otra vez",
+  "valueTooLong": "Es tan larga",
+  "reset": "Reiniciar",
+  "previousDay": "Día Previo",
+  "timeboxsForDay": "Timeboxes para {{day}}",
+  "loading": "Cargando",
+  "errorFetching": "Hubo un error cargando su data, trate otra vez",
+  "noTimeboxes": "No hay Timeboxes para ver",
+  "nextDay": "Día Siguiente"
+}

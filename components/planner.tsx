@@ -1,8 +1,9 @@
 import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTimeslots } from "../client/dummyApi";
+import { useTranslation } from "next-i18next";
+import { fetchTimeboxes } from "../client/dummyApi";
 
-export type Timeslot = {
+export type Timebox = {
   id?: string;
   start: Date;
   end: Date;
@@ -15,7 +16,8 @@ const Planner: FC<{
   onNext: Function;
 }> = ({ day, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
-  const { isLoading, error, data } = useQuery(["timeslots"], fetchTimeslots);
+  const { isLoading, error, data } = useQuery(["timeboxs"], fetchTimeboxes);
+  const { t } = useTranslation("common");
 
   return (
     <>
@@ -25,28 +27,28 @@ const Planner: FC<{
           className="button-sm"
           onClick={() => onPrevious()}
         >
-          Previous day
+          {t("previousDay")}
         </button>
         <h2
           className="block text-center mx-4 sm:mx-5 lg:mx-10 text-2xl"
           suppressHydrationWarning
         >
-          Timeslot planner for {day.toLocaleDateString()}
+          {t("timeboxsForDay", { day: day.toLocaleDateString() })}
         </h2>
         <button type="button" className="button-sm" onClick={() => onNext()}>
-          Next day
+          {t("nextDay")}
         </button>
       </div>
       <section>
         {isLoading ? (
           <div role="progressbar" aria-busy="true">
-            Loading
+            {t("loading")}
           </div>
         ) : (
           <>
             {!!error && (
               <div role="alert" className="alert error">
-                There was an error loading your data, try again later
+                {t("errorFetching")}
               </div>
             )}
             {data?.length ? (
@@ -63,7 +65,7 @@ const Planner: FC<{
                 ))}
               </ol>
             ) : undefined}
-            {!error && !data?.length && <p>There are no timeslots to show</p>}
+            {!error && !data?.length && <p>{t("noTimeboxes")}</p>}
           </>
         )}
       </section>

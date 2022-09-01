@@ -1,0 +1,23 @@
+{
+  "title": "Timebox Planner",
+  "timeboxCreated": "Timebox created",
+  "add": "Add",
+  "addTimebox": "Add Timebox",
+  "startTime": "Start Time",
+  "endTime": "End Time",
+  "description": "Description",
+  "badDate": "Cannot recognize date",
+  "dateRequired": "Date required",
+  "descriptionRequired": "Description required",
+  "descriptionCharacterLimit": "Description must be 140 characters or less",
+  "endAfterStart": "End must come after start",
+  "errorCreatingTimebox": "There was an error creating your timebox, try again later",
+  "valueTooLong": "Value is too long",
+  "reset": "Reset",
+  "previousDay": "Previous Day",
+  "timeboxsForDay": "Timeboxes for {{day}}",
+  "loading": "Loading",
+  "errorFetching": "There was an error loading your data, try again later",
+  "noTimeboxes": "There are no timeboxs to show",
+  "nextDay": "Next Day"
+}

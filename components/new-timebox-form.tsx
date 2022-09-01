@@ -2,11 +2,12 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
-import { Timeslot } from "../components/planner";
-import { createTimeslot } from "../client/dummyApi";
+import { useTranslation } from "next-i18next";
+import { Timebox } from "../components/planner";
+import { createTimebox } from "../client/dummyApi";
 import { screenReaderFlashAtom } from "../store";
 
-export type TimeslotForm = {
+export type TimeboxForm = {
   start: string;
   end: string;
   description: string;
@@ -16,7 +17,7 @@ function parseTimeInputString(i: string): Date {
   return dayjs(i).second(0).toDate();
 }
 
-function timeslotFormToTimeslot(form: TimeslotForm): Timeslot {
+function timeboxFormToTimebox(form: TimeboxForm): Timebox {
   return {
     start: parseTimeInputString(form.start),
     end: parseTimeInputString(form.end),
@@ -24,21 +25,7 @@ function timeslotFormToTimeslot(form: TimeslotForm): Timeslot {
   };
 }
 
-function dateIsValid(s: string) {
-  s = s.trim();
-  if (s.length > 0) {
-    const d = new Date(s);
-    if (isNaN(d.getTime())) {
-      return "Cannot recognize date";
-    } else {
-      return true;
-    }
-  } else {
-    return "Date required";
-  }
-}
-
-const NewTimeslotForm = ({}) => {
+const NewTimeboxForm = ({}) => {
   const {
     register,
     handleSubmit,
@@ -46,62 +33,77 @@ const NewTimeslotForm = ({}) => {
     setError,
     getFieldState,
     reset,
-  } = useForm<TimeslotForm>({
+  } = useForm<TimeboxForm>({
     shouldUseNativeValidation: false,
     reValidateMode: "onSubmit",
   });
 
   const [_, setFlash] = useAtom(screenReaderFlashAtom);
 
+  const { t } = useTranslation("common");
   const queryClient = useQueryClient();
-  const mutation = useMutation(createTimeslot, {
-    onMutate: async (newTimeslot) => {
+  const mutation = useMutation(createTimebox, {
+    onMutate: async (newTimebox) => {
       // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries(["timeslots"]);
+      await queryClient.cancelQueries(["timeboxs"]);
 
       // Snapshot the previous value
-      const previousTimeslots = queryClient.getQueryData(["timeslots"]);
+      const previousTimeboxes = queryClient.getQueryData(["timeboxs"]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["timeslots"], (old: Timeslot[] | undefined) => [
+      queryClient.setQueryData(["timeboxs"], (old: Timebox[] | undefined) => [
         ...(old || []),
         {
-          ...newTimeslot,
+          ...newTimebox,
           id: Math.round(Math.random() * 10000000000).toString(),
         },
       ]);
 
       // Return a context object with the snapshotted value
-      return { previousTimeslots };
+      return { previousTimeboxes };
     },
     onSuccess: () => {
       // TODO this is a hack but it works
       setFlash("");
       setTimeout(() => {
-        setFlash("Timslot created");
+        setFlash(t("timeboxCreated"));
       });
       reset();
     },
     // If the mutation fails, use the context returned from onMutate to roll back
-    onError: (err: Error, newTimeslot, context) => {
-      queryClient.setQueryData(["timeslots"], context?.previousTimeslots);
+    onError: (err: Error, newTimebox, context) => {
+      queryClient.setQueryData(["timeboxs"], context?.previousTimeboxes);
       return Promise.reject(err);
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries(["timeslots"]);
+      queryClient.invalidateQueries(["timeboxs"]);
     },
   });
 
-  function validateForm(data: TimeslotForm) {
+  function dateIsValid(s: string) {
+    s = s.trim();
+    if (s.length > 0) {
+      const d = new Date(s);
+      if (isNaN(d.getTime())) {
+        return t("badDate");
+      } else {
+        return true;
+      }
+    } else {
+      return t("dateRequired");
+    }
+  }
+
+  function validateForm(data: TimeboxForm) {
     const start = new Date(data.start);
     const end = new Date(data.end);
     if (start.getTime() > end.getTime()) {
       setError("end", {
-        message: "End must come after start",
+        message: t("endAfterStart"),
       });
     } else {
-      mutation.mutate(timeslotFormToTimeslot(data));
+      mutation.mutate(timeboxFormToTimebox(data));
     }
   }
 
@@ -109,16 +111,18 @@ const NewTimeslotForm = ({}) => {
   const end = getFieldState("end");
   const description = getFieldState("description");
 
+  console.debug("form render");
+
   return (
     <>
-      <h2 className="block text-center mb-4 text-xl">Add timeslot</h2>
+      <h2 className="block text-center mb-4 text-xl">{t("addTimebox")}</h2>
       <form
         className="flex flex-col space-y-4"
         onSubmit={handleSubmit(validateForm)}
       >
         <div className="flex flex-col">
           <label className="" htmlFor="start">
-            Start time *
+            {t("startTime")} *
             <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.start?.message}
             </span>
@@ -130,14 +134,14 @@ const NewTimeslotForm = ({}) => {
             aria-invalid={errors.start ? "true" : "false"}
             {...register("start", {
               validate: dateIsValid,
-              maxLength: { value: 140, message: "Value is too long" },
+              maxLength: { value: 140, message: t("valueTooLong") },
             })}
           />
         </div>
 
         <div className="flex flex-col">
           <label className="" htmlFor="end">
-            End time *
+            {t("endTime")} *
             <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.end?.message}
             </span>
@@ -149,14 +153,14 @@ const NewTimeslotForm = ({}) => {
             aria-invalid={errors.end ? "true" : "false"}
             {...register("end", {
               validate: dateIsValid,
-              maxLength: { value: 140, message: "Value is too long" },
+              maxLength: { value: 140, message: t("valueTooLong") },
             })}
           />
         </div>
 
         <div className="flex flex-col">
           <label className="" htmlFor="description">
-            Description *
+            {t("description")} *
             <span className="text-red-600 font-bold float-right word-break-word">
               {errors?.description?.message}
             </span>
@@ -167,10 +171,10 @@ const NewTimeslotForm = ({}) => {
             type="text"
             aria-invalid={errors.description ? "true" : "false"}
             {...register("description", {
-              required: "Description required",
+              required: t("descriptionRequired"),
               maxLength: {
                 value: 140,
-                message: "Description must be 140 characters or less",
+                message: t("descriptionCharacterLimit"),
               },
             })}
           />
@@ -178,7 +182,7 @@ const NewTimeslotForm = ({}) => {
 
         {mutation.isError && (
           <div className="alert error" role="alert">
-            There was an error creating your time box, try again later
+            {t("errorCreatingTimebox")}
           </div>
         )}
 
@@ -192,14 +196,14 @@ const NewTimeslotForm = ({}) => {
             }}
             disabled={mutation.isLoading}
           >
-            Reset
+            {t("reset")}
           </button>
           <button
             className="button"
             type="submit"
             disabled={mutation.isLoading}
           >
-            Add
+            {t("add")}
           </button>
         </div>
       </form>
@@ -207,4 +211,4 @@ const NewTimeslotForm = ({}) => {
   );
 };
 
-export default NewTimeslotForm;
+export default NewTimeboxForm;

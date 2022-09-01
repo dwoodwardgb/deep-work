@@ -46,4 +46,8 @@
     position: absolute; 
     width: 1px; 
   }
+
+  a {
+    text-decoration: underline;
+  }
 }
