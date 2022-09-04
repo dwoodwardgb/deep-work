@@ -4,7 +4,7 @@
   "add": "Añadir",
   "addTimeblock": "Añadir Timeblock",
   "startTime": "Hora de inicio",
-  "endTime": "Finalización",
+  "endTime": "Hora de finalización",
   "description": "Descripción",
   "badDate": "No se puede reconocer esta fecha",
   "dateRequired": "Fecha necesaria",
