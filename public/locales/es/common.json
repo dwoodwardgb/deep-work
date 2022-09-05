@@ -1,6 +1,7 @@
 {
   "title": "Agenda Timeblock",
   "timeblockCreated": "Timeblock creado",
+  "timeblockDeleted": "Timeblock deleted",
   "add": "Añadir",
   "addTimeblock": "Añadir Timeblock",
   "startTime": "Hora de inicio",
@@ -19,5 +20,6 @@
   "loading": "Cargando",
   "errorFetching": "Hubo un error cargando su data, trate otra vez",
   "noTimeblocks": "No hay timeblocks para este día",
-  "nextDay": "Día siguiente"
+  "nextDay": "Día siguiente",
+  "to": "al"
 }

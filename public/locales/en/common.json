@@ -1,6 +1,7 @@
 {
   "title": "Timeblock Planner",
   "timeblockCreated": "Timeblock created",
+  "timeblockDeleted": "Timeblock deleted",
   "add": "Add",
   "addTimeblock": "Add Timeblock",
   "startTime": "Start Time",
@@ -19,5 +20,6 @@
   "loading": "Loading",
   "errorFetching": "There was an error loading your data, try again later",
   "noTimeblocks": "There are no timeblocks to show",
-  "nextDay": "Next Day"
+  "nextDay": "Next Day",
+  "to": "to"
 }

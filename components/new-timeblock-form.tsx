@@ -1,11 +1,8 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
-import { useAtom } from "jotai";
 import { useTranslation } from "next-i18next";
 import { Timeblock } from "../components/planner";
-import { createTimeblock } from "../client/dummyApi";
-import { screenReaderFlashAtom } from "../store";
+import { useCreateTimeblock } from "../timeblocks";
 
 export type TimeblockForm = {
   start: string;
@@ -38,49 +35,10 @@ const NewTimeblockForm = ({}) => {
     reValidateMode: "onSubmit",
   });
 
-  const [_, setFlash] = useAtom(screenReaderFlashAtom);
-
   const { t } = useTranslation("common");
-  const queryClient = useQueryClient();
-  const mutation = useMutation(createTimeblock, {
-    onMutate: async (newTimeblock) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries(["timeblocks"]);
-
-      // Snapshot the previous value
-      const previousTimeblocks = queryClient.getQueryData(["timeblocks"]);
-
-      // Optimistically update to the new value
-      queryClient.setQueryData(
-        ["timeblocks"],
-        (old: Timeblock[] | undefined) => [
-          ...(old || []),
-          {
-            ...newTimeblock,
-            id: Math.round(Math.random() * 10000000000).toString(),
-          },
-        ]
-      );
-
-      // Return a context object with the snapshotted value
-      return { previousTimeblocks };
-    },
-    onSuccess: () => {
-      // TODO this is a hack but it works
-      setFlash("");
-      setTimeout(() => {
-        setFlash(t("timeblockCreated"));
-      });
+  const mutation = useCreateTimeblock({
+    onSuccess() {
       reset();
-    },
-    // If the mutation fails, use the context returned from onMutate to roll back
-    onError: (err: Error, newTimeblock, context) => {
-      queryClient.setQueryData(["timeblocks"], context?.previousTimeblocks);
-      return Promise.reject(err);
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(["timeblocks"]);
     },
   });
 
@@ -113,8 +71,6 @@ const NewTimeblockForm = ({}) => {
   const start = getFieldState("start");
   const end = getFieldState("end");
   const description = getFieldState("description");
-
-  console.debug("form render");
 
   return (
     <>

@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { fetchTimeblocks } from "../client/dummyApi";
+import { useDeleteTimeblock } from "../timeblocks";
 
 export type Timeblock = {
   id?: string;
@@ -17,6 +18,7 @@ const Planner: FC<{
 }> = ({ day, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
   const { isLoading, error, data } = useQuery(["timeblocks"], fetchTimeblocks);
+  const mutation = useDeleteTimeblock();
   const { t } = useTranslation("common");
 
   return (
@@ -53,14 +55,32 @@ const Planner: FC<{
             )}
             {data?.length ? (
               <ol style={{ wordBreak: "break-word" }}>
-                {data!.map((ts) => (
-                  <li key={ts.id}>
-                    {ts.start.toLocaleTimeString(locale, {
-                      timeStyle: "short",
-                    })}{" "}
-                    to{" "}
-                    {ts.end.toLocaleTimeString(locale, { timeStyle: "short" })}:{" "}
-                    {ts.description}
+                {data!.map((tb) => (
+                  <li key={tb.id} className="space-y-3">
+                    <span className="mr-2">
+                      {tb.start.toLocaleTimeString(locale, {
+                        timeStyle: "short",
+                      })}
+                      &nbsp;
+                      {t("to")}
+                      &nbsp;
+                      {tb.end.toLocaleTimeString(locale, {
+                        timeStyle: "short",
+                      })}
+                      :&nbsp;
+                      {tb.description}
+                    </span>
+                    &nbsp;
+                    <button
+                      className="button-sm"
+                      type="button"
+                      aria-label="delete"
+                      onClick={() => {
+                        mutation.mutate(tb);
+                      }}
+                    >
+                      delete
+                    </button>
                   </li>
                 ))}
               </ol>
