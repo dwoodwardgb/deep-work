@@ -145,7 +145,7 @@ const NewTimeblockForm = ({}) => {
           </div>
         )}
 
-        <div className="mt-4 self-end space-x-4">
+        <div className="pt-2 self-end space-x-5">
           <button
             className="button"
             type="button"

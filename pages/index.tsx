@@ -50,10 +50,10 @@ const Home: NextPage = () => {
         </nav>
       </header>
 
-      <main className="ml-auto mr-auto max-w-6xl md:flex p-4">
-        <ScreenReaderFlash />
+      <ScreenReaderFlash />
 
-        <section className="flex-grow ml-auto mr-auto md:m-0">
+      <main className="ml-auto mr-auto max-w-6xl p-4 space-y-16">
+        <section>
           <Planner
             day={today}
             onPrevious={() => {
@@ -65,10 +65,7 @@ const Home: NextPage = () => {
           />
         </section>
 
-        <section
-          className="ml-auto mr-auto mt-4 md:m-0 md:ml-4"
-          style={{ maxWidth: 370, minWidth: 370 }}
-        >
+        <section style={{ maxWidth: 370, minWidth: 370 }}>
           <NewTimeblockForm />
         </section>
       </main>

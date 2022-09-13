@@ -21,7 +21,7 @@
   }
   .button {
     @apply border-basic;
-    @apply p-2;
+    @apply p-3;
   }
   .button:disabled {
     @apply text-gray-500;
