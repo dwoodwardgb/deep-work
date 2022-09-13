@@ -10,7 +10,6 @@ export async function fetchTimeblocks(): Promise<Timeblock[]> {
         tb.start = new Date(tb.start);
         tb.end = new Date(tb.end);
       });
-      console.debug(t);
       resolve(t);
     });
   });
@@ -20,7 +19,7 @@ export async function createTimeblock(
   timeblock: Timeblock
 ): Promise<Timeblock> {
   const res = Math.random();
-  const success = res < 0.5;
+  const success = res < 0.7;
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (success) {
@@ -40,7 +39,7 @@ export async function createTimeblock(
 
 export async function deleteTimeblock(tb: Timeblock) {
   const res = Math.random();
-  const success = res < 0.5;
+  const success = res < 0.7;
   return new Promise<void>((resolve, reject) => {
     setTimeout(() => {
       if (success) {
@@ -55,6 +54,6 @@ export async function deleteTimeblock(tb: Timeblock) {
       } else {
         reject(new Error("Unable to create timeblock, try again later"));
       }
-    });
+    }, 1200);
   });
 }

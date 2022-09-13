@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { FC, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
 import { fetchTimeblocks } from "../client/dummyApi";
-import { useDeleteTimeblock } from "../timeblocks";
+import { Timeblock } from "./timeblock";
 
 export type Timeblock = {
   id?: string;
@@ -17,9 +17,13 @@ const Planner: FC<{
   onNext: Function;
 }> = ({ day, onPrevious, onNext }) => {
   const { locale } = new Intl.NumberFormat().resolvedOptions();
-  const { isLoading, error, data } = useQuery(["timeblocks"], fetchTimeblocks);
-  const mutation = useDeleteTimeblock();
+  const query = useQuery(["timeblocks"], fetchTimeblocks);
   const { t } = useTranslation("common");
+  const [childError, setChildError] = useState("");
+
+  function clearError() {
+    setChildError("");
+  }
 
   return (
     <>
@@ -42,50 +46,39 @@ const Planner: FC<{
         </button>
       </div>
       <section>
-        {isLoading ? (
+        {query.isLoading ? (
           <div role="progressbar" aria-busy="true">
             {t("loading")}
           </div>
         ) : (
           <>
-            {!!error && (
+            {!!query.error ? (
               <div role="alert" className="alert error">
                 {t("errorFetching")}
               </div>
+            ) : (
+              !!childError && (
+                <div role="alert" className="alert error">
+                  {childError}
+                </div>
+              )
             )}
-            {data?.length ? (
-              <ol style={{ wordBreak: "break-word" }}>
-                {data!.map((tb) => (
-                  <li key={tb.id} className="space-y-3">
-                    <span className="mr-2">
-                      {tb.start.toLocaleTimeString(locale, {
-                        timeStyle: "short",
-                      })}
-                      &nbsp;
-                      {t("to")}
-                      &nbsp;
-                      {tb.end.toLocaleTimeString(locale, {
-                        timeStyle: "short",
-                      })}
-                      :&nbsp;
-                      {tb.description}
-                    </span>
-                    &nbsp;
-                    <button
-                      className="button-sm"
-                      type="button"
-                      aria-label="delete"
-                      onClick={() => {
-                        mutation.mutate(tb);
-                      }}
-                    >
-                      delete
-                    </button>
+            {query.data?.length ? (
+              <ol style={{ wordBreak: "break-word" }} className="space-y-3">
+                {query.data!.map((tb) => (
+                  <li key={tb.id} className="">
+                    <Timeblock
+                      timeblock={tb}
+                      locale={locale}
+                      onMutate={clearError}
+                      onError={setChildError}
+                      onSuccess={clearError}
+                    />
                   </li>
                 ))}
               </ol>
             ) : undefined}
-            {!error && !data?.length && <p>{t("noTimeblocks")}</p>}
+            {!query.error && !query.data?.length && <p>{t("noTimeblocks")}</p>}
           </>
         )}
       </section>

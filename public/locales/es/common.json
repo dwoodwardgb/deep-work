@@ -13,6 +13,7 @@
   "descriptionCharacterLimit": "Descripción no puede tener mas que 140 carácteres",
   "endAfterStart": "Finalización tiene que venir despues del inicio",
   "errorCreatingTimeblock": "Hubo un error creando su timeblock, trate otra vez",
+  "errorDeletingTimeblock": "Hubo un error eliminando este timeblock, trate otra vez",
   "valueTooLong": "El valor es tan larga",
   "reset": "Reiniciar",
   "previousDay": "Día previo",

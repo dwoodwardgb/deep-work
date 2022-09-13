@@ -48,12 +48,22 @@ export function useCreateTimeblock({ onSuccess }: { onSuccess: () => void }) {
   return mutation;
 }
 
-export function useDeleteTimeblock() {
+export function useDeleteTimeblock({
+  onError,
+  onSuccess,
+  onMutate,
+}: {
+  onError: (s: string) => void;
+  onSuccess: () => void;
+  onMutate: () => void;
+}) {
   const { t } = useTranslation("common");
   const [_, setFlash] = useAtom(store.screenReaderFlashAtom);
   const queryClient = useQueryClient();
   const mutation = useMutation(api.deleteTimeblock, {
     onMutate: async (timeblockToDelete) => {
+      onMutate();
+
       await queryClient.cancelQueries(["timeblocks"]);
 
       const previousTimeblocks = queryClient.getQueryData(["timeblocks"]);
@@ -73,10 +83,11 @@ export function useDeleteTimeblock() {
       setTimeout(() => {
         setFlash(t("timeblockDeleted"));
       });
+      onSuccess();
     },
     onError: (err: Error, _newTimeblock, context) => {
       queryClient.setQueryData(["timeblocks"], context?.previousTimeblocks);
-      return Promise.reject(err);
+      onError(t("errorDeletingTimeblock"));
     },
     onSettled: () => {
       queryClient.invalidateQueries(["timeblocks"]);

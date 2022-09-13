@@ -13,6 +13,7 @@
   "descriptionCharacterLimit": "Description must be 140 characters or less",
   "endAfterStart": "End must come after start",
   "errorCreatingTimeblock": "There was an error creating your timeblock, try again later",
+  "errorDeletingTimeblock": "There was an error deleting this timeblock, try again later",
   "valueTooLong": "Value is too long",
   "reset": "Reset",
   "previousDay": "Previous Day",
