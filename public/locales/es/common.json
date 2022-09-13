@@ -17,7 +17,6 @@
   "valueTooLong": "El valor es tan larga",
   "reset": "Reiniciar",
   "previousDay": "Día previo",
-  "timeblocksForDay": "Timeblocks para {{day}}",
   "loading": "Cargando",
   "errorFetching": "Hubo un error cargando su data, trate otra vez",
   "noTimeblocks": "No hay timeblocks para este día",

@@ -17,7 +17,6 @@
   "valueTooLong": "Value is too long",
   "reset": "Reset",
   "previousDay": "Previous Day",
-  "timeblocksForDay": "Timeblocks for {{day}}",
   "loading": "Loading",
   "errorFetching": "There was an error loading your data, try again later",
   "noTimeblocks": "There are no timeblocks to show",

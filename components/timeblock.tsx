@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useDeleteTimeblock } from "../timeblocks";
-import { Timeblock } from "./planner";
+import { useDeleteTimeblock, Timeblock } from "../timeblocks";
 
 export function Timeblock({
   timeblock,
@@ -8,12 +7,14 @@ export function Timeblock({
   onError,
   onSuccess,
   onMutate,
+  readonly,
 }: {
   timeblock: Timeblock;
   locale: string;
   onError: (s: string) => void;
   onSuccess: () => void;
   onMutate: () => void;
+  readonly: boolean;
 }) {
   const mutation = useDeleteTimeblock({
     onError,
@@ -37,18 +38,20 @@ export function Timeblock({
         {timeblock.description}
       </span>
       &nbsp;
-      <button
-        className="button-sm"
-        type="button"
-        aria-label="delete"
-        onClick={() => {
-          mutation.mutate(timeblock);
-        }}
-        // this is less necessary because tb will be unmounted when being deleted
-        disabled={mutation.isLoading}
-      >
-        delete
-      </button>
+      {!readonly && (
+        <button
+          className="button-sm"
+          type="button"
+          aria-label="delete"
+          onClick={() => {
+            mutation.mutate(timeblock);
+          }}
+          // this is less necessary because tb will be unmounted when being deleted
+          disabled={mutation.isLoading}
+        >
+          delete
+        </button>
+      )}
     </div>
   );
 }

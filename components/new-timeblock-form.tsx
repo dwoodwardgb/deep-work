@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useTranslation } from "next-i18next";
-import { Timeblock } from "../components/planner";
-import { useCreateTimeblock } from "../timeblocks";
+import { useCreateTimeblock, Timeblock } from "../timeblocks";
 
 export type TimeblockForm = {
   start: string;

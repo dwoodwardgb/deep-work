@@ -1,9 +1,15 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useTranslation } from "next-i18next";
-import { Timeblock } from "./components/planner";
 import * as store from "./store";
 import * as api from "./timeblocksApi";
+
+export type Timeblock = {
+  id?: string;
+  start: Date;
+  end: Date;
+  description: string;
+};
 
 export function useCreateTimeblock({ onSuccess }: { onSuccess: () => void }) {
   const { t } = useTranslation("common");
