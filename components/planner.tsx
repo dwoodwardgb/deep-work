@@ -27,7 +27,7 @@ const Planner: FC<{
 
   return (
     <>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-7">
         <button
           type="button"
           className="button-sm"
@@ -45,7 +45,7 @@ const Planner: FC<{
           {t("nextDay")}
         </button>
       </div>
-      <section>
+      <section className="space-y-3">
         {query.isLoading ? (
           <div role="progressbar" aria-busy="true">
             {t("loading")}
