@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { useTranslation } from "next-i18next";
 import { Timeblock } from "./components/planner";
 import * as store from "./store";
-import * as api from "./client/dummyApi";
+import * as api from "./timeblocksApi";
 
 export function useCreateTimeblock({ onSuccess }: { onSuccess: () => void }) {
   const { t } = useTranslation("common");

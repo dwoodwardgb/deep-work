@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
-import { fetchTimeblocks } from "../client/dummyApi";
+import { fetchTimeblocks } from "../timeblocksApi";
 import { Timeblock } from "./timeblock";
 
 export type Timeblock = {

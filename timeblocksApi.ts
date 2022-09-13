@@ -1,16 +1,16 @@
-import { Timeblock } from "../components/planner";
+import { Timeblock } from "./components/planner";
 
-let t: Timeblock[] = [];
+let timeblocks: Timeblock[] = [];
 
 export async function fetchTimeblocks(): Promise<Timeblock[]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      t = JSON.parse(localStorage.getItem("timeblocks") || "[]");
-      t.forEach((tb) => {
+      timeblocks = JSON.parse(localStorage.getItem("timeblocks") || "[]");
+      timeblocks.forEach((tb) => {
         tb.start = new Date(tb.start);
         tb.end = new Date(tb.end);
       });
-      resolve(t);
+      resolve(timeblocks);
     });
   });
 }
@@ -27,8 +27,8 @@ export async function createTimeblock(
           ...timeblock,
           id: Math.round(Math.random() * 10000000000).toString(),
         };
-        t = [...t, ts];
-        localStorage.setItem("timeblocks", JSON.stringify(t));
+        timeblocks = [...timeblocks, ts];
+        localStorage.setItem("timeblocks", JSON.stringify(timeblocks));
         resolve(ts);
       } else {
         reject(new Error("Unable to create timeblock, try again later"));
@@ -43,12 +43,12 @@ export async function deleteTimeblock(tb: Timeblock) {
   return new Promise<void>((resolve, reject) => {
     setTimeout(() => {
       if (success) {
-        const i = t.findIndex((x) => x.id === tb.id);
+        const i = timeblocks.findIndex((x) => x.id === tb.id);
         if (i !== -1) {
-          const x = [...t];
+          const x = [...timeblocks];
           x.splice(i, 1);
-          t = x;
-          localStorage.setItem("timeblocks", JSON.stringify(t));
+          timeblocks = x;
+          localStorage.setItem("timeblocks", JSON.stringify(timeblocks));
         }
         resolve();
       } else {
