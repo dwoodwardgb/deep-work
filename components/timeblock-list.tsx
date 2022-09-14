@@ -1,12 +1,6 @@
 import { FC, useState } from "react";
-import { Timeblock } from "./timeblock";
-
-export type Timeblock = {
-  id?: string;
-  start: Date;
-  end: Date;
-  description: string;
-};
+import { Timeblock } from "../timeblocks";
+import { TimeblockRow } from "./timeblock-row";
 
 const TimeblockList: FC<{
   readonly: boolean;
@@ -30,7 +24,7 @@ const TimeblockList: FC<{
         <ol style={{ wordBreak: "break-word" }} className="space-y-3">
           {timeblocks!.map((tb) => (
             <li key={tb.id} className="">
-              <Timeblock
+              <TimeblockRow
                 readonly={readonly}
                 timeblock={tb}
                 locale={locale}

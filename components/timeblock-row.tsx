@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { useDeleteTimeblock, Timeblock } from "../timeblocks";
 
-export function Timeblock({
+export function TimeblockRow({
   timeblock,
   locale,
   onError,

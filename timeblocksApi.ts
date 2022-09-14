@@ -1,4 +1,4 @@
-import { Timeblock } from "./components/planner";
+import { Timeblock } from "./timeblocks";
 
 let timeblocks: Timeblock[] = [];
 
